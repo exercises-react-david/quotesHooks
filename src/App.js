@@ -8,6 +8,7 @@ function Quote(props){
       <p>Date: <span>{props.quote.date}</span></p>
       <p>Hour: <span>{props.quote.hour}</span></p>
       <p>Symptom: <span>{props.quote.symptom}</span></p>
+      <button onClick={() => props.deleteQuote(props.quote.index)} type="button" className="button eliminar u-full-width">Delete X</button>
     </div>
   )
 }
@@ -96,7 +97,13 @@ function App() {
     updateQuotes(newQuotes); 
   }
 
-  console.log(quotes);
+  const deleteQuote = (index) =>{
+    const newQuotes = [...quotes];
+    newQuotes.splice(index,1);
+    updateQuotes(newQuotes);
+  }
+
+  const title = Object.keys(quotes).length === 0 ? 'there are no appointments' : 'manage the appointments here';
 
   return(
     <React.Fragment>
@@ -109,11 +116,13 @@ function App() {
               />
           </div>
           <div className="one-half column">
+            <h2>{title}</h2>
             {quotes.map((quote, index) => (
               <Quote
                 key={index} 
                 index={index}
-                quote={quote}
+                quote={quote} 
+                deleteQuote={deleteQuote}
               />
             ))
 
